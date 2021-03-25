@@ -1,4 +1,4 @@
-import ReactDOM from "react-dom";
+import { render, screen } from "@testing-library/react";
 import App from "./App";
 
 function click(element) {
@@ -8,21 +8,16 @@ function click(element) {
 }
 
 test("Clicking increments the counter", () => {
-  const container = document.createElement("div");
-  document.body.appendChild(container);
+  render(<App />);
 
-  ReactDOM.render(<App />, container);
-
-  const increment = container.querySelector("button");
-  const paragraph = container.querySelector("p");
+  const increment = screen.getByRole("button");
+  const paragraph = screen.getByText(/nb click/i);
 
   expect(paragraph.textContent).toBe("Nb click: 0");
 
-  click(increment)
+  click(increment);
   expect(paragraph.textContent).toBe("Nb click: 1");
 
-  click(increment)
+  click(increment);
   expect(paragraph.textContent).toBe("Nb click: 2");
-
-  container.remove();
 });
